@@ -1,0 +1,93 @@
+Práctica 2
+----------
+Los objetivos de esta práctica son:
+	1) Manipular archivos con datos de tipo JSON.
+	2) Graficar datos para extraer información de análisis.
+	3) Verificar hipótesis empíricamente.
+
+Introducción
+------------
+El formato JSON (ver https://en.wikipedia.org/wiki/JSON) permite que los 
+sistemas intercambien información de modo simple. En particular es el 
+formato del stream de Twitter.
+
+Python provee un módulo para leer y escribir datos en formato JSON (ver 
+https://docs.python.org/2/library/json.html)
+
+Ejercicio 1
+-----------
+El archivo "trump.txt" es un extracto del stream de twitter filtrado por 
+la palabra "Trump".
+
+a) Realizar un programa en python que lea el archivo y muestre por pantalla 
+las claves y los tipos de dato de los valores.
+
+Nota: para obtener un tipo de dato en python se usa: type(<dato>). Ejemplo:
+
+>>> a = 2
+>>> type(a)
+<type 'int'>
+
+b) Realizar un programa en python que extraiga una muestra de los datos. 
+Es decir: cada vez que aparezca un tweet que contenga al menos una clave 
+nueva debe imprimirse por pantalla. 
+
+Nota: para ir recolectando las claves que van apareciendo en los tweets 
+se pueden usar conjuntos. Ejemplo:
+
+equipos = {'Boca': ['arquero', 'defensor_1'], 'River': ['delantero2']}
+>>> equipos.viewkeys() | ['Ferro', 'Boca']
+set(['River', 'Boca', 'Ferro'])
+
+>>> equipos.viewkeys() - ['Ferro', 'Boca']
+set(['River'])
+
+c) Redirigir la salida del ejercicio b) a un archivo. En el interprete 
+de python, cargar las lineas del archivo y analizar los datos. Ejemplo:
+
+with open('muestra.txt') as f:
+    lineas = json.loads(f.read().splitlines())
+
+tweet = json.loads(lines[0])
+
+Nota: si resulta útil se puede usar la información de twitter: 
+
+https://dev.twitter.com/overview/api/tweets
+
+Ejercicio 2
+-----------
+Los campos que vamos a considerar en este ejercicio son de la entidad 
+"user" (ver https://dev.twitter.com/overview/api/users):
+
+tweet["user"]["name"]
+tweet["user"]["followers_count"]
+tweet["user"]["friends_count"]
+tweet["user"]["favourites_count"]
+tweet["user"]["statuses_count"]
+tweet["user"]["time_zone"]
+
+a) Construir histogramas por rangos para los campos "followers_count" y 
+"friends_count". Considerar los rangosa: 0-100, 101-1000, 1001-10000, 
+10001-100000, +100001
+
+b) Elaborar algún criterio para determinar si un usuario es una persona 
+física o si es una instituición. Mostrar evidencia (gráfica) de que el 
+criterio es razonable.
+
+c) El campo "time_zone" permite determinar el huso horario asociado al 
+usuario. En EEUU hay cuatro husos distintos (considerando el territorio 
+contiguo, o sea sin Alaska ni Hawaii): Pacific Time, Mountain Time, 
+Central Time, Eastern Time. En base al ejemplo "interpolation_gray.py", 
+diseñar un gráfico que refleje información interesante de las 4 zonas; por 
+ejemplo: cantidad de usuarios con más de 10000 followers.
+
+Ejercicio 3
+-----------
+De acuerdo a las ideas implementadas en la práctica 1 en relación a tener 
+un conjunto de palabras prohibidas para descartar palabras irrelevantes 
+(ej.: artículos o pronombres), diseñar un gráfico de tipo "Word Cloud" 
+del texto de los tweets (tweet["text"]). Ver capítulo Word Clouds, pág. 333 
+del libro "Data Science from Scratch".
+
+Nota: considerar palabras que contengan sólo letras (sin caracteres especiales)
+
