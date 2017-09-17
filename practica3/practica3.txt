@@ -1,0 +1,93 @@
+Práctica 3
+----------
+Los objetivos de esta práctica son:
+
+	1) Procesar archivos csv
+	2) Crear una estructura de datos para procesar tablas
+	3) Realizar análisis de los datos
+	4) Graficar información
+
+Introduccion
+------------
+
+En esta práctica vamos a elaborar una estructura de datos para procesar 
+tablas (tipo Excel) en python. Vamos a emplear dicha estructura para 
+procesar archivos .csv (comma separated values) de tamaño arbitrario.
+
+Vamos a suponer que la primera línea de los archivos .csv contiene el 
+nombre de las columnas de la tabla.
+
+El archivo "properati-AR-2017-08-01-properties-sell-six_months.csv" es 
+un conjunto de propiedades en venta (fuente: https://www.properati.com.ar/data)
+
+El programa "prueba.py" muestra cómo se pueden pasar funciones como parámetro.
+
+Para programar orientado a objetos en python se puede usar como referencia: https://docs.python.org/2/tutorial/classes.html
+
+Ejercicio 1
+-----------
+a) Implementar en python la siguiente clase para procesar archivos con 
+formato .csv de tamaño arbitrario:
+
+class DataFrame():
+	def __init__(self, filename): # abre el archivo csv, lee la primera fila y arma un diccionario que mapea cada nombre de columna a la posición que de la columna
+		
+	def cols(self): # devuelve los nombres de las columnas
+
+	def map(self, f): #abre el archivo csv y recorre las filas; cada fila la levanta en una lista de strings y le aplica la función f()
+	
+	def getColValue(self, fila, colName): # devuelve el valor de la columnas colName de la fila (fila es una tupla con los valores de la fila)
+
+	
+Para hacer las pruebas: extraer un conjunto de líneas del archivo "properati-AR-2017-08-01-properties-sell-six_months.csv" y hacer una función que imprima un campo determinado (ej.: el campo "geonames_id")
+
+b) De acuerdo a la descripción de los campos (ver https://www.properati.com.ar/data), de qué tipo son (string, int, float, etc.)?
+
+id
+created_on
+operation
+property_type
+place_name
+place_with_parent_names
+country_name
+state_name
+geonames_id
+lat-lon
+lat
+lon
+price
+currency
+price_aprox_local_currency
+price_aprox_usd
+surface_total_in_m2
+surface_covered_in_m2
+price_usd_per_m2
+price_per_m2
+floor
+rooms
+expenses
+properati_url
+description
+title
+image_thumbnail
+
+Ejercicio 2
+-----------	
+Usando lo anterior, implementar funciones para filtrar y calcular:
+
+a) Calcular el valor medio de los deptos 2 ambientes en Mar del Plata
+
+b) Hacer un histograma por cantidad de ambientes. Repetir el análisis 
+quitando los outliers
+
+c) Hacer un histograma de las 10 localidades con mayor cantidad de 
+publicaciones de deptos. de 2 ambientes
+
+d) Para aquellas propiedades que tengan información geográfica, calcular la 
+distancia al congreso de la nación. La distancia euclidea entre dos puntos del plano 
+se calcula como: sqrt((x1-x0)^2 + (y1-y0)^2). Referencia: https://en.wikipedia.org/wiki/Euclidean_distance
+
+e) Hacer un scatter plot de las propiedades que difieran a lo sumo en 
+0.1 grados en latitud y longitud respecto al congreso de la nación (ver latitud 
+y longitud en google mpas). Referencia para hacer scatter plots: pag. 70 del libro "Data Science From Scratch"
+
