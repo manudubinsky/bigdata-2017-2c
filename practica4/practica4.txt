@@ -1,0 +1,43 @@
+Práctica 4
+----------
+El objetivo de esta práctica es:
+
+	1) Realizar spiders para automatizar el procesamiento de la información de sitios web
+
+Introducción
+------------
+
+En esta practica vamos a trabajar con scrapy, que es un módulo de python para automatizar el procesamiento de sitios web.
+
+Ejercicio 1
+-----------
+
+Antes de empezar con scrapy es importante entender el comando "yield" de python, y en términos más en generales: es importante entender qué son los generadores. Ver pag. 59 del libro "Data Science from Scratch" y https://es.stackoverflow.com/questions/6048/cu%C3%A1l-es-el-funcionamiento-de-yield-en-python 
+
+La constante matemática "e": https://en.wikipedia.org/wiki/E_(mathematical_constant), puede calcularse de dos maneras distintas: como una serie y como el límite de una sucesión
+
+Utilizando el comando "yield", hacer las siguiente funciones en python:
+
+a) Calcular "e" como una serie (imprimir el valor de e y la cantidad de iteraciones)
+b) Calcular "e" como límite infinito de una sucesión (imprimir el valor de e y la cantidad de iteraciones)
+
+En ambos casos hay que cortar la iteración cuando el valor calculado es igual al de la iteración anterior
+
+Ejercicio 2
+-----------
+
+Para comprender qué es un spider ver la primera parte de https://doc.scrapy.org/en/latest/topics/spiders.html
+
+Realizar el tutorial:
+
+https://doc.scrapy.org/en/latest/intro/tutorial.html
+
+Ejercicio 3
+-----------
+
+De acuerdo al pronóstico del tiempo provisto por La Nacion, (ejemplo (Buenos Aires): http://servicios.lanacion.com.ar/pronostico-del-tiempo/buenos-aires), se pide:
+
+Generar un archivo csv con el siguinte formato para todas las provincias:
+Provincia,Localidad,Temperatura Mínima,Temperatura Máxima
+
+
