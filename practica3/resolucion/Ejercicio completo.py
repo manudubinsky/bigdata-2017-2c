@@ -4,7 +4,6 @@ import collections
 import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.pyplot as plt2
-import matplotlib.pyplot as plt3
 import math
 import re
 
@@ -13,8 +12,8 @@ dic={}
 
 class DataFrame():    
 
-    def __init__(self, filename): # abre el archivo csv, lee la primera fila y arma un diccionario que mapea cada nombre de columna a la posicin que de la columna
-        file= open(filename)
+    def __init__(self, filename): # abre el archivo csv, lee la primera fila y arma un diccionario que mapea cada nombre de columna a la posiciÃ³n que de la columna
+        file= open(filename, encoding="utf8")
         primera=file.readline()
         print(primera)
         separar=primera.split(",")
@@ -30,7 +29,7 @@ class DataFrame():
             return clave
         
     def map(self, f):
-        file= open(filename)
+        file= open(filename, encoding="utf8")
         for l in file:
             fila=l.split(",")
             f(self, fila)
@@ -93,8 +92,8 @@ def fc(self, fila): #funciona bien
 def fd(self, fila): 
     a = self.getColValue(fila,'lat') #Latitud de las propiedades en String
     b = self.getColValue(fila,'lon') #Longitud de las propiedades en String
-    congresoLon=-34.609864 #Latitud del Congreso
-    congresoLat=-58.392692 #Longitud del Congreso
+    congresoLat=-34.609864 #Latitud del Congreso
+    congresoLon=-58.392692 #Longitud del Congreso
     if a!='""' and b!='""': #Discrimina los vacios
         a2=re.findall(r'[-][\d]+.[\d]+', a) #Quita los caracteres especiales
         for each in a2:
@@ -106,29 +105,37 @@ def fd(self, fila):
 lon=[]
 lat=[]
 def fe (self, fila):
+    #Defino y modelo la variable para latitud
     a = self.getColValue(fila,'lat') #Latitud de las propiedades en String
-    b = self.getColValue(fila,'lon') #Longitud de las propiedades en String
-    #print a + "; " + b
-    congresoLon=-34.609864 #Latitud del Congreso
-    congresoLat=-58.392692 #Longitud del Congreso
-    global lon
-    global lat
-    global distancia
-    if a!='""' and b!='""': #Discrimina los vacios
-        a2=re.findall(r'[-][\d]+.[\d]+', a) #Quita los caracteres especiales
-        #print a2
+    congresoLat=-34.609864 #Latitud del congreso
+    global lat #Lista para usar en el Scatter
+    if a!='""':
+        a2=re.findall(r'[-][\d]+.[\d]+', a) #Quita caracteres especiales
         for each in a2:
             a3=float(each) #Castea a float
-            c=pow(a3-congresoLat,2) #Realiza las cuentas para calcular la distancia 
-            d = pow(float(b)-congresoLon,2)
-            #print str(a3)  + " " + str(congresoLat)< 
-            if math.sqrt(c+d)<0.1:
-				#print "entre"
-				l1=a3-congresoLat
-				l2=float(b)-congresoLon
-				lat.append(l1)
-				lon.append(l2)
-			
+            a4=a3-congresoLat #Hace la diferencia
+            if a4<0.1: #Si la diferencia es menor a 0.1, se agrega a la lista del Scatter
+                lat.append(a4)
+        
+    #Defino y modelo la variable para longitud
+    b = self.getColValue(fila,'lon') #Longitud de las propiedades en String
+    congresoLon=-58.392692 #Longitud del congreso
+    global lon #Lista para usar en el Scatter
+    if b!='""':
+        b2=re.findall(r'[-][\d]+.[\d]+', b) #Quita caracteres especiales
+        for each in b2:
+            b3=float(each) #Castea a float
+            b4=b3+congresoLon #Hace la diferencia
+            if b4<0.1: #Si la diferencia es menor a 0.1, se agrega a la lista del Scatter
+                lon.append(b4)
+                print (lon)
+    #Scatter Plot
+    plt.scatter(lat, lon) 
+    for lat_count, lon_count in zip(lat, lon): #MALDITO ERROR
+        xy=(lat_count, lon_count)
+    plt.show()
+
+
 df.__init__(filename)
 df.cols()
 df.map(fe)
@@ -175,10 +182,4 @@ plt2.xticks([i for i, _ in enumerate(dosambientes)],dosambientes)
 plt2.show()"""
 
 #print (dic)
-
-#Scatter Plot        
-plt3.scatter(lat, lon)
-for lat_count, lon_count in zip(lat, lon):
-        xy=(lat_count, lon_count)
-plt3.show()
         

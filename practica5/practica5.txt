@@ -1,0 +1,112 @@
+Práctica 5
+----------
+Los objetivos de esta práctica son:
+
+	1) Crear una base de datos relacional:
+		a) Importar datos
+		b) Crear Tablas
+		c) Claves primarias/foráneas
+	2) Realizar altas modificaciones de registros
+	3) Realizar consultas simples, joins, subqueries y agregaciones
+	4) Interface python-postgres
+
+Introducción
+------------
+En esta práctica vamos a trabajar con un motor de base de datos relacional: postgres. El manual "postgresql-9.5-A4.pdf" contiene toda la información que vamos a requerir. NOTA: las referencias de la forma "sección XX.XX" corresponden a secciones del manual.
+
+Ejercicio 1
+-----------
+
+a) Crear la base de datos "world" (sección 1.3).
+
+b) Llenar la base de datos con los datos del script world.sql (sugerencia: usar psql -f ..., https://www.postgresql.org/docs/devel/static/app-psql.html)
+
+c) Conectarse con un cliente (pgAdmin, psql, etc.) a la base creada en el punto anterior
+
+
+Ejercicio 2
+-----------
+
+Realizar las siguientes consultas en SQL:
+
+Simples sobre una sóla tabla:
+a) La población de Argentina 
+b) Todos los continentes (sin repeticiones)
+c) Nombres de los países de América del Sur con más de 15 millones de habitantes
+d) Nombre y producto bruto de los diez países con mayor producto bruto (gnp)
+e) Forma de gobierno y cantidad de paises con dicha forma de gobierno ordenados por cantidad de modo descentente (sugerencia: agrupar por forma de gobierno y contar)
+f) Los nombres de los continentes con sus respectivas superficies ordenados de forma descendentes por superficie
+g) Los continentes y la cantidad de paises que los componen de aquellos continentes con más de 15 países
+h) Idem g) pero que los países que se tengan en cuenta tengan una población de más de 20 millones de personas
+
+Subqueries:
+a) ¿Qué hace la siguiente consulta?
+
+		select name, lifeexpectancy
+		from country
+		where lifeexpectancy = (select min(lifeexpectancy) from country)
+
+b) Nombre del pais y la expectativa de vida de el/los países con mayor y menor expectativa de vida 
+c) Nombre de los países y año de independencia que pertenecen al continente del país que se independizo hace más tiempo
+d) Nombres de los continentes que no pertenencen al conjunto de los continentes más pobres
+
+Joins
+-----
+a) los paises y las lenguas de los paises de Oceania
+b) los paises y la cantidad de lenguas de los paises en los que se habla más de una lengua (ordenar por cantidad de lenguas de forma descendente)
+c) Las lenguas que se hablan en el continente más pobre (sin considerar a Antarctica)
+d) Los nombres de los países y sus respectivas poblaciones calculadas de formas distintas: 1) de acuerdo al campo de la tabla country y 2) como suma de las polaciones de sus ciudades correspondientes, ademas se pide calcular el porcentaje de población urbana (de las ciudades), ordenar por porcentaje de modo descendente
+
+Ejercicio 3
+-----------
+En pgAdmin 3 se puede visualizar el script de creación de una tabla (botón derecho sobre la tabla >> Scripts >> CREATE).
+
+a) Analizar los scripts de creación de las tres tablas (country, city, countrylanguage) y responder a las siguientes preguntas:
+	* Cuál es la clave priamria (primary key) de cada tabla?
+	* Cuáles son las claves foráneas (foreign key) de cada tabla?
+	* A tu criterio, falta alguna clave foránea?
+
+b) A tu criterio, qué es una clave primaria? Y una clave foránea?
+
+c) Crear la siguiente tabla de estadísticas:
+
+Nombre: stats
+Campos: * countrycode: primary key/forign key (tabla country)
+		* cant_lenguas: cantidad de lenguas que se hablan en el país
+		* pop_urbana: cantidad total de habitantes en las ciudades del país
+		
+Para llenar la tabla considerar esta alternativas:
+
+1) https://stackoverflow.com/questions/6083132/postgresql-insert-into-select
+2) https://stackoverflow.com/questions/6256610/updating-table-rows-in-postgres-using-subquery
+
+Ejercicio 4
+-----------
+Para integrar python y postgres ver el siguiente tutorial:
+
+http://zetcode.com/db/postgresqlpythontutorial/
+
+El archivo "top-1m.csv" contiene la información ordenada del 1er. millón de sitios de internet con mayor tráfico.
+
+a) Considerando que cada línea del archivo es de la forma:
+			<nro. de orden>,<dominio>
+
+Y cada dominio es de la forma: XXXXX.YYY.ZZ
+
+Se pide crear la siguiente trabla
+
+Nombre: sitio
+Campos: id: int (es el número de orden que aparece en cada línea de la archivo)/primary key
+		entidad: varchar (1ra. parte del dominio: hasta el 1er. punto)
+		tipo_entidad: varchar (2da. parte del dominio)
+		país: varchar (3ra. parte dela dominio)
+		countrycode: foreign key a country.code
+		
+NOTA: hay dominios que no tienen país
+
+b) Hacer un programa en python que haga lo siguiente:
+	* Leer los campos code2 y code de la tabla country y generar un diccionario de la forma: d[code2] = code
+	* Para cada línea de la archivo "top-1m.csv" separar el nro. de orden y el dominio
+	* Separar el dominio en los tres (o dos) campos que lo componen
+	* Hacer la inserción del registro correspondiente en la tabla "sitio" haciendo la traducción correspondiente del país
+

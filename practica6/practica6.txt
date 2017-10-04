@@ -1,0 +1,27 @@
+Práctica 6
+----------
+Los objetivos de esta práctica son:
+
+	4) Analizar y crear índices
+	5) Crear vistas
+	6) Crear triggers
+	7) Crear stored-procedures
+	8) Interface python-postgres
+	9) Implementar transacciones
+
+
+Triggers (pag. 1546)/40.9.1
+
+Importar masiva datos (pag. 1432)
+
+create index 11.1
+	https://en.wikipedia.org/wiki/B-tree
+
+explain plan 14.1; explain analyze plan 14.2
+	explain select * from city
+	explain select * from city limit 10;
+	explain select id from city;
+	explain select id from city where id = 1;
+	explain select name from city where name = 'Kabul';
+	explain analyze select name from city where name = 'Kabul';
+
