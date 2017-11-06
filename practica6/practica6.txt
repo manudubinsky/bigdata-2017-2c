@@ -1,27 +1,67 @@
 Práctica 6
 ----------
-Los objetivos de esta práctica son:
+En el contexto del motor de base de datos postgres, los objetivos de esta práctica son:
 
-	4) Analizar y crear índices
-	5) Crear vistas
-	6) Crear triggers
-	7) Crear stored-procedures
-	8) Interface python-postgres
-	9) Implementar transacciones
+	1) Analizar y crear índices
+	2) Crear vistas
+	3) Crear triggers
+	4) Implementar transacciones
+	5) Crear stored-procedures
+	6) Interface python-postgres
 
 
-Triggers (pag. 1546)/40.9.1
+Introducción
+------------
+Continuamos con la práctica de motores de base de datos relacionales. Al igual que en la práctica 5, todas las referencias corresponden al manual de postgres: "postgresql-9.5-A4.pdf".
 
-Importar masiva datos (pag. 1432)
+Ejercicio 1 (Índices)
+-----------
+Los índices son estructuras de datos secundarias (o auxiliares) que permiten acceder a los datos de una tabla en  menor tiempo. Ver sección 11.1 del manual.
 
-create index 11.1
-	https://en.wikipedia.org/wiki/B-tree
+La estructura de datos más popular para implementar índices se denomina: B-tree (Ver la primera parte de https://en.wikipedia.org/wiki/B-tree)
 
-explain plan 14.1; explain analyze plan 14.2
-	explain select * from city
-	explain select * from city limit 10;
-	explain select id from city;
-	explain select id from city where id = 1;
-	explain select name from city where name = 'Kabul';
-	explain analyze select name from city where name = 'Kabul';
+a) De acuerdo a la tabla "sitio" creada en la práctica anterior, analizar qué debería devolver la siguiente consulta:
 
+				select *
+				from sitio s1, sitio s2
+				where s1.countrycode = s2.countrycode
+				and s1.entidad like 'a%' and s2.entidad like 'b%'
+				limit 100
+
+b) En general los motores de bases de datos relacionales proveen funcionalidades para analizar cómo se ejecuta una consulta (ver sección 14.1). Analizar la consula anterior con EXPLAIN y luego ejecutarla.
+
+c) Crear un indice sobre la columna "countrycode" de la tabla "sitio" y repetir el analisis
+
+d) Ejecutar la consulta
+
+Ejercicio 2 (Vistas)
+-----------
+Las vistas son tablas virtuales calculadas a partir de columnas de otras tablas (ver 3.2)
+
+a) Crear la vista "stats" que contenga las estadísticas de la consulta d) de la parte de JOINS de la práctica 5. La vista debe terner las siguientes columnas:
+
+	name: nombre del país
+	pop: población (de acuerdo a la tabla country)
+	urban_pop: población calculada como la suma de las poblaciones de las respectivas ciudades del país
+	urban_pop_prop: proporción de población urbana (urban_pop/pop * 100)
+	
+
+Ejercicio 3 (Triggers)
+-----------
+Los triggers son procedimiento que se definen dentro del motor de la base de datos que se ejecutan cuando se produce algún evento, ej: un INSERT, UPDATE o DELETE en una tabla.
+
+a) De acuerdo a los ejemplos de la sección 40.9.1, crear triggers para registrar en una tabla de auditoría los INSERT, UPDATE y DELETE (junto con el usuario que realizó cada operación) de la tabla sitio
+
+b) Verificar la tabla de auditoria realizando operaciones de prueba (INSERTs, UPDATEs, DELETEs)
+
+Ejercicio 4 (Transacciones)
+-----------
+a) Analizar la sección 3.4 del manual e implementar el ejemplo sugerido.
+
+b) Qué es una transacción? Por qué son necesarias?
+
+Ejercicio 5 (Stored-procedures)
+-----------
+a) De acuerdo a los ejemplos del capítulo 40, implementar la función avg_cities() que reciba como parámetro un "countrycode" y  devuelva el promedio poblacional de sus ciudades.
+
+b) Implementar un programa en python que ejecute la función. (ver http://www.postgresqltutorial.com/postgresql-python/call-stored-procedures/)
