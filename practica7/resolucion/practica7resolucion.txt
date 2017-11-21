@@ -1,0 +1,42 @@
+3.2)db.tweets.findOne()
+a)
+db.tweets.find({},{id:1,text:1}).limit(10)
+ db.tweets.find({},{_id:0,"user.id":1,text:1}).limit(10)
+b)
+db.tweets.distinct("lang")
+c)
+db.tweets.find({"user.followers_count":{$gt:50000}},{_id:0,"user.id":1,"user.name":1,"user.followers_count":1})
+d)
+db.tweets.count({"user.followers_count":{$gt:100}})
+e)
+db.tweets.find({},{"_id":1,"user.name":1, "user.followers_count":1}).sort({"user.followers_count":-1}).limit(10)
+
+4.2)
+a)
+var mapFunction1 = function (){ emit (this.source, 1);}
+var reduceFunction1 = function (keySource,lista){ return Array.sum(lista);}
+db.tweets.mapReduce(mapFunction1, reduceFunction1, { out: {inline:1}})
+
+b)
+var mapFunction1 = function (){ emit (this.lang, 1);}
+var reduceFunction1 = function (keyLang,lista){ return Array.sum(lista);}
+db.tweets.mapReduce(mapFunction1, reduceFunction1, { out: {inline:1}})
+
+db.tweets.aggregate({$group:{_id: "$lang", total:{$sum: 1}}})
+
+c)
+
+var mapFunction1 = function () {
+	if (this.text != null) {
+		palabras = this.text.split(' ').length;
+		if (palabras < 10){
+			emit ('corto', 1);}
+		if (palabras >= 10 && palabras <20){
+			emit ('mediano',1);}
+		if (palabras >= 20){
+			emit ('largo',1);}
+	}
+}
+
+var reduceFunction1 = function (keyText, lista){ return Array.sum(lista);}
+db.tweets.mapReduce(mapFunction1,reduceFunction1, {out:{inline:1}})

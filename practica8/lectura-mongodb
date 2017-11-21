@@ -1,0 +1,16 @@
+10gen-MongoDB_Operations_Best_Practices
+	Introduction (pag. 1)
+	Schema Design (pag. 3)
+		secciones: Document Model, Collections, Dynamic Schema & Document 
+		Validation, Indexes, Transactions, Document Size
+	Scaling a MongoDB System
+		Horizontal Scaling with Sharding 
+		Sharding Best Practices
+		Dynamic Data Balancing
+		Geographic Distribution
+		
+MongoDB_Architecture_Guide:
+	Auto-shrding (pag. 8)
+	Availability (pag. 9)
+	
+	
